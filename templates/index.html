@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>SecureText | Encryption Tool</title>
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-icon">🔐</div>
+        <div>
+          <div class="brand-name">SecureText</div>
+          <div class="brand-subtitle">Web-Based Text Encryption Tool</div>
+        </div>
+      </div>
+
+      <div class="status">
+        <span class="status-dot"></span>
+        Local &amp; Secure
+      </div>
+    </header>
+
+    <main class="page">
+      <section class="hero">
+        <div>
+          <span class="eyebrow">INFORMATION SECURITY</span>
+          <h1>Encrypt. Decrypt. Protect.</h1>
+          <p>
+            A simple web interface for experimenting with classical and modern
+            cryptographic techniques.
+          </p>
+        </div>
+      </section>
+
+      <section class="workspace">
+        <!-- LEFT: INPUT -->
+        <div class="panel">
+          <div class="panel-heading">
+            <div>
+              <span class="step">01</span>
+              <h2>Your message</h2>
+            </div>
+            <span class="panel-label">INPUT</span>
+          </div>
+
+          <label for="plainText">Plain text</label>
+
+          <textarea
+            id="plainText"
+            placeholder="Type or paste the message you want to process..."
+          ></textarea>
+
+          <label for="algorithm">Algorithm</label>
+
+          <select id="algorithm">
+            <option value="">Select an algorithm</option>
+            <option value="caesar">Caesar Cipher</option>
+            <option value="aes">AES-256</option>
+            <option value="rsa">RSA-2048</option>
+            <option value="sha256">SHA-256 Hash</option>
+          </select>
+
+          <div id="algorithmInfo" class="algorithm-info">
+            Select an algorithm to see what it does.
+          </div>
+
+          <button id="encryptButton" class="primary-button">
+            <span>Encrypt / Hash</span>
+            <span>→</span>
+          </button>
+        </div>
+
+        <!-- RIGHT: OUTPUT -->
+        <div class="panel">
+          <div class="panel-heading">
+            <div>
+              <span class="step">02</span>
+              <h2>Result</h2>
+            </div>
+            <span id="resultType" class="panel-label">OUTPUT</span>
+          </div>
+
+          <label for="cipherText">Ciphertext / Hash</label>
+
+          <textarea
+            id="cipherText"
+            placeholder="Your result will appear here..."
+          ></textarea>
+
+          <div class="action-row">
+            <button id="copyButton" class="secondary-button">
+              Copy result
+            </button>
+            <button id="clearButton" class="ghost-button">Clear</button>
+          </div>
+
+          <div id="keySection">
+            <label for="key">Decryption key</label>
+
+            <textarea
+              id="key"
+              class="key-field"
+              placeholder="Your AES key or RSA private key will appear here after encryption..."
+            ></textarea>
+          </div>
+
+          <button id="decryptButton" class="success-button">
+            <span>Decrypt</span>
+            <span>↻</span>
+          </button>
+
+          <label for="decryptedText">Decrypted text</label>
+
+          <textarea
+            id="decryptedText"
+            placeholder="The original message will appear here..."
+            readonly
+          ></textarea>
+        </div>
+      </section>
+
+      <section class="algorithm-cards">
+        <div class="mini-card">
+          <span class="mini-icon">C</span>
+          <div>
+            <strong>Caesar</strong>
+            <small>Classical substitution</small>
+          </div>
+        </div>
+
+        <div class="mini-card">
+          <span class="mini-icon">A</span>
+          <div>
+            <strong>AES-256</strong>
+            <small>Symmetric encryption</small>
+          </div>
+        </div>
+
+        <div class="mini-card">
+          <span class="mini-icon">R</span>
+          <div>
+            <strong>RSA-2048</strong>
+            <small>Asymmetric encryption</small>
+          </div>
+        </div>
+
+        <div class="mini-card">
+          <span class="mini-icon">H</span>
+          <div>
+            <strong>SHA-256</strong>
+            <small>One-way hashing</small>
+          </div>
+        </div>
+      </section>
+
+      <p class="footer-note">
+        Educational project • Built with Flask, JavaScript and PyCryptodome
+      </p>
+    </main>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+  </body>
+</html>
