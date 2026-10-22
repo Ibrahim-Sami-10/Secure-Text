@@ -1,7 +1,6 @@
-
-
-
 # SecureText
+
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-secure--text--iota.vercel.app-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://secure-text-iota.vercel.app)
 
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue.svg)
 ![Flask](https://img.shields.io/badge/Framework-Flask-lightgrey.svg)
@@ -13,7 +12,12 @@ Built with **Python (Flask)**, **JavaScript (ES6)**, and **PyCryptodome**.
 
 > **Educational use only:** This project is intended for learning and experimentation and should not be used to protect production data or real secrets.
 
+🌐 **Live Demo:** [https://secure-text-iota.vercel.app](https://secure-text-iota.vercel.app)
+
+## 🎥 Preview
+
 https://github.com/user-attachments/assets/b97bf082-b736-469d-b846-40ced0a17ce5
+
 
 ## 🚀 Features
 
