@@ -1,3 +1,4 @@
+import os
 import hashlib
 import base64
 
@@ -7,7 +8,14 @@ from Crypto.Random import get_random_bytes
 from Crypto.PublicKey import RSA
 from Crypto.Util.Padding import pad, unpad
 
-app = Flask(__name__)
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+
+app = Flask(
+    __name__,
+    template_folder=os.path.join(BASE_DIR, "templates"),
+    static_folder=os.path.join(BASE_DIR, "static"),
+)
+
 
 
 # -------------------------
