@@ -1,3 +1,6 @@
+
+
+
 # SecureText
 
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue.svg)
@@ -9,6 +12,8 @@
 Built with **Python (Flask)**, **JavaScript (ES6)**, and **PyCryptodome**.
 
 > **Educational use only:** This project is intended for learning and experimentation and should not be used to protect production data or real secrets.
+
+https://github.com/user-attachments/assets/b97bf082-b736-469d-b846-40ced0a17ce5
 
 ## 🚀 Features
 
