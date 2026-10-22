@@ -14,7 +14,7 @@ Flask Framework-Defined Infrastructure (FDI).
 
 - **Project ID:** `prj_FFMwAmay1qXKVczVE1QTDHw6WqNZ`
 - **Project Name:** `secure-text`
-- **Assigned Live Domain:** [https://secure-text-iota.vercel.app](https://secure-text-iota.vercel.app)
+- **Assigned Live Domain:** [https://secure-text-tool.vercel.app](https://secure-text-tool.vercel.app)
 - **Framework Preset:** `flask` (Zero-Configuration)
 
 ## Architectural Guidelines

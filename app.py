@@ -16,6 +16,31 @@ app = Flask(
     static_folder=os.path.join(BASE_DIR, "static"),
 )
 
+# Limit request body to 1MB to prevent Denial of Service (DoS) memory exhaustion
+app.config["MAX_CONTENT_LENGTH"] = 1 * 1024 * 1024
+
+
+@app.errorhandler(413)
+def request_entity_too_large(error):
+    return jsonify({"error": "Payload is too large (max 1 MB allowed)."}), 413
+
+
+@app.after_request
+def add_security_headers(response):
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers["X-XSS-Protection"] = "1; mode=block"
+    response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+    response.headers["Content-Security-Policy"] = (
+        "default-src 'self'; "
+        "style-src 'self' 'unsafe-inline'; "
+        "script-src 'self'; "
+        "img-src 'self' data:; "
+        "font-src 'self';"
+    )
+    return response
+
+
 
 
 # -------------------------
@@ -125,15 +150,17 @@ def home():
 
 @app.route("/encrypt", methods=["POST"])
 def encrypt():
-    data = request.get_json() or {}
+    data = request.get_json(silent=True)
+    if not isinstance(data, dict):
+        return jsonify({"error": "Invalid request body."}), 400
 
-    text = data.get("text", "")
-    algorithm = data.get("algorithm", "")
+    text = data.get("text")
+    algorithm = data.get("algorithm")
 
-    if not text.strip():
+    if not isinstance(text, str) or not text.strip():
         return jsonify({"error": "Please enter some text."}), 400
 
-    if not algorithm:
+    if not isinstance(algorithm, str) or not algorithm.strip():
         return jsonify({"error": "Please select an algorithm."}), 400
 
     try:
@@ -164,7 +191,10 @@ def encrypt():
         return jsonify({"error": "Invalid algorithm."}), 400
 
     except ValueError as error:
-        return jsonify({"error": str(error)}), 400
+        err_msg = str(error)
+        if "Plaintext is too long" in err_msg:
+            err_msg = "RSA-2048 encryption is limited to small messages (~214 bytes) due to OAEP padding. Use AES-256 for larger text."
+        return jsonify({"error": err_msg}), 400
     except Exception:
         return jsonify({"error": "Encryption failed. Please try again."}), 500
 
@@ -175,16 +205,18 @@ def encrypt():
 
 @app.route("/decrypt", methods=["POST"])
 def decrypt():
-    data = request.get_json() or {}
+    data = request.get_json(silent=True)
+    if not isinstance(data, dict):
+        return jsonify({"error": "Invalid request body."}), 400
 
-    ciphertext = data.get("ciphertext", "")
-    algorithm = data.get("algorithm", "")
+    ciphertext = data.get("ciphertext")
+    algorithm = data.get("algorithm")
     key = data.get("key", "")
 
-    if not ciphertext.strip():
+    if not isinstance(ciphertext, str) or not ciphertext.strip():
         return jsonify({"error": "Please enter ciphertext."}), 400
 
-    if not algorithm:
+    if not isinstance(algorithm, str) or not algorithm.strip():
         return jsonify({"error": "Please select an algorithm."}), 400
 
     if algorithm == "sha256":
@@ -199,7 +231,7 @@ def decrypt():
             })
 
         if algorithm == "aes":
-            if not key.strip():
+            if not isinstance(key, str) or not key.strip():
                 return jsonify({"error": "AES key is required."}), 400
 
             return jsonify({
@@ -207,7 +239,7 @@ def decrypt():
             })
 
         if algorithm == "rsa":
-            if not key.strip():
+            if not isinstance(key, str) or not key.strip():
                 return jsonify({"error": "RSA private key is required."}), 400
 
             return jsonify({
